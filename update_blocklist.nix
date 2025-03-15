@@ -1,33 +1,33 @@
 { pkgs, config }: let
 inherit (pkgs) ipset wget;
-inherit (config.services.blacklist-updater) blacklists ipSetName ipV6SetName blacklistedIPs;
+inherit (config.services.blocklist-updater) blocklists ipSetName ipV6SetName blocklistedIPs;
 in ''
 # Clear ipset from previous address.
 # Ignore if it fails, because we don't care 
 
 set -e
 urls=(
-  ${blacklists}
+  ${blocklists}
 )
 
 # Output file
-BLFILE="/tmp/ipblacklist.txt"
-BLFILE_PROCESSED="/tmp/ipblacklist_processed.txt"
+BLFILE="/tmp/ipblocklist.txt"
+BLFILE_PROCESSED="/tmp/ipblocklist_processed.txt"
 
 # Empty the output file if it exists
 > "$BLFILE"
 
-# Download the blacklist and add it to a file
+# Download the blocklist and add it to a file
 for url in "''${urls[@]}"; do
-  echo "Downloading blacklist '$url'..."
+  echo "Downloading blocklist '$url'..."
   ${wget}/bin/wget -q -O - "$url" >> "$BLFILE"
   echo >> "$BLFILE" # Add a newline separator
 done
 
-# blacklist manual ips
-echo "${blacklistedIPs}">> $BLFILE
+# blocklist manual ips
+echo "${blocklistedIPs}">> $BLFILE
 
-${import ./clear_blacklist.nix { inherit pkgs config; }}
+${import ./clear_blocklist.nix { inherit pkgs config; }}
 
 echo "Updating ip:s to ${ipSetName} ip-set"
 # Create an ip set and add each ip to it one by one

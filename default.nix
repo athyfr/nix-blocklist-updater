@@ -2,21 +2,21 @@
 with lib; {
   imports = [
     ./service.nix
-    (lib.mkRemovedOptionModule [ "services" "blacklist-updater" "runInitially" ] ''
+    (lib.mkRemovedOptionModule [ "services" "blocklist-updater" "runInitially" ] ''
       The service is now performant and can be run on every boot. This avoids
       leaving the blocklist in place if the module is removed.
     '')
   ];
-  options.services.blacklist-updater = {
-    enable = mkEnableOption "blacklist-updater";
-    blacklists = mkOption {
+  options.services.blocklist-updater = {
+    enable = mkEnableOption "blocklist-updater";
+    blocklists = mkOption {
       type = types.listOf types.str;
       example = [ "example.com" ];
       default = [ "https://lists.blocklist.de/lists/all.txt" ];
       description = "URL lists containing new line separated IPs to be blocked";
       apply = lib.strings.concatMapStrings (x: "\n'${x}'");
     };
-    blacklistedIPs = mkOption {
+    blocklistedIPs = mkOption {
       type = with types; either str (listOf str);
       example = [ "1.2.3.4" "10.168.10.0/24" "2a06:4883:1000::2" ];
       default = [ ];

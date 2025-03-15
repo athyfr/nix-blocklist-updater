@@ -1,8 +1,8 @@
 { pkgs, config }: let
 inherit (pkgs) ipset iptables;
-inherit (config.services.blacklist-updater) ipSetName ipV6SetName;
+inherit (config.services.blocklist-updater) ipSetName ipV6SetName;
 in ''
-echo "Running blacklist initializer"
+echo "Running blocklist initializer"
 
 # Stop if the set already exists
 echo "Checking if ip-set ${ipSetName} already exists"

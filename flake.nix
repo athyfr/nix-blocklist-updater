@@ -1,5 +1,5 @@
 {
-  description = "A service for updating blacklists of IPs";
+  description = "A service for updating blocklists of IPs";
 
   inputs = {
     nixpkgs.url = "flake:nixpkgs/nixos-unstable";
@@ -7,11 +7,11 @@
 
   outputs = { self, nixpkgs, ... }: let
     lib = nixpkgs.lib;
-    blacklistModule = import ./.;
+    blocklistModule = import ./.;
   in {
     nixosModules = rec {
-      blacklist-updater = blacklistModule;
-      default = blacklist-updater;
+      blocklist-updater = blocklistModule;
+      default = blocklist-updater;
     };
   };
 }
