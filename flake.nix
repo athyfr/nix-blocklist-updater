@@ -12,6 +12,7 @@
     nixosModules = rec {
       blocklist-updater = blocklistModule;
       default = blocklist-updater;
+      blacklist-updater = blocklistModule; # backwards compatibility
     };
   };
 }
