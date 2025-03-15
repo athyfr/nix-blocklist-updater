@@ -1,5 +1,5 @@
 { pkgs, config }: let
-inherit (pkgs) ipset wget;
+inherit (pkgs) ipset;
 inherit (config.services.blocklist-updater) ipSetName ipV6SetName;
 in ''
 echo "Clearing ${ipSetName} ip-set..."

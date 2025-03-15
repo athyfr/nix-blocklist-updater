@@ -1,5 +1,4 @@
-{ pkgs, config, lib, ... }:
-with builtins;
+{ pkgs, config, ... }:
 let cfg = config.services.blocklist-updater;
 in {
   systemd.services."blocklist" = {

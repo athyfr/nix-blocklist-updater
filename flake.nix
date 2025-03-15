@@ -5,8 +5,7 @@
     nixpkgs.url = "flake:nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, ... }: let
-    lib = nixpkgs.lib;
+  outputs = let
     blocklistModule = import ./.;
   in {
     nixosModules = rec {
