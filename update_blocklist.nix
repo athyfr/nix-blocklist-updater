@@ -70,13 +70,13 @@ in
   {
       while IFS= read -r IP; do
           if [[ $IP =~ $ipv4_regex ]]; then
-              blockIPv4 $IP
-          if [[ $IP =~ $ipv6_regex ]]; then
-              blockIPv6 $IP
-          elif [[ $IP =~ $host_regex ]]; then
+              blockIPv4 "$IP"
+          if [[ "$IP" =~ $ipv6_regex ]]; then
+              blockIPv6 "$IP"
+          elif [[ "$IP" =~ $host_regex ]]; then
               blockDomain ''${IP:8}
-          elif [[ $IP =~ $domain_regex ]]; then
-              blockDomain $IP
+          elif [[ "$IP" =~ $domain_regex ]]; then
+              blockDomain "$IP"
           else
               echo "Warning: Invalid line skipped -> $IP" >&2
           fi
