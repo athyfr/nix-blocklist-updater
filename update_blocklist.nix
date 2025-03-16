@@ -75,7 +75,7 @@ in
           if [[ $IP =~ $ipv6_regex ]]; then
               blockIPv6 $IP
           elif [[ $IP =~ $host_regex ]]; then
-              blockDomain $\{IP:8\}
+              blockDomain \${IP:8}
           elif [[ $IP =~ $domain_regex ]]; then
               blockDomain $IP
           else
