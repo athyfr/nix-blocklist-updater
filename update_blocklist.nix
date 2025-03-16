@@ -62,7 +62,7 @@ in
 
       hostIPv6=$(dig $1 AAAA +short)
       while IFS= read -r IP; do
-          echo $(blockIPv6 $1)
+          blockIPv6 "$1"
       done < $hostIPv6s
   }
 
