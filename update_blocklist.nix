@@ -55,15 +55,15 @@ in
   }
 
   blockDomain () {
-      hostIPv4=$(dig "$1" A +short)
+      dig "$1" A +short |
       while IFS= read -r IP; do
           blockIPv4 "$1"
       done < $hostIPv4s
 
-      hostIPv6=$(dig $1 AAAA +short)
+      dig $1 AAAA +short |
       while IFS= read -r IP; do
           blockIPv6 "$1"
-      done < $hostIPv6s
+      done
   }
 
   # Use a temporary buffer to improve performance
