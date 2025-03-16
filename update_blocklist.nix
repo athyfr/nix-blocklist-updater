@@ -57,7 +57,7 @@ in
   blockDomain () {
       hostIPv4=$(dig "$1" A +short)
       while IFS= read -r IP; do
-          echo $(blockIPv4 $1)
+          blockIPv4 "$1"
       done < $hostIPv4s
 
       hostIPv6=$(dig $1 AAAA +short)
