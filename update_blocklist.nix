@@ -10,7 +10,7 @@ let
 in
 ''
   # Clear ipset from previous address.
-  # Ignore if it fails, because we don't care 
+  # Ignore if it fails, because we don't care
 
   set -e
   urls=(
@@ -40,16 +40,44 @@ in
   # Create an ip set and add each ip to it one by one
 
   # IPv4 and IPv6 regex patterns with CIDR notation support - WARNING: might not be correct for all IPs (e.g. ignore valid ones or accept wrong ones), but seems to work fine
+  # Also supports hosts files, as well as plain lists of domains.
   ipv4_regex="^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$"
   ipv6_regex="^([0-9a-fA-F:]+::?[0-9a-fA-F]*)+(\/[0-9]{1,3})?$"
+  domain_regex"^([A-Za-z0-9-]+(?<!-)\.)+[A-Za-z0-9-]+$"
+  host_regex"$^0\.0\.0\.0 $\{domain_regex:1\}"
+
+  # Define the functions to be used.
+  blockIPv4 () {
+      echo "${ipSetName}" "$1"
+  }
+
+  blockIPv6 () {
+      echo "${ipV6SetName}" "$1"
+  }
+
+  blockDomain () {
+      hostIPv4=$(dig $1 A +short)
+      while IFS= read -r IP; do
+          echo $(blockIPv4 $1)
+      done < $hostIPv4s
+
+      hostIPv6=$(dig $1 AAAA +short)
+      while IFS= read -r IP; do
+          echo $(blockIPv6 $1)
+      done < $hostIPv6s
+  }
 
   # Use a temporary buffer to improve performance
   {
       while IFS= read -r IP; do
           if [[ $IP =~ $ipv4_regex ]]; then
-              echo -exist add "${ipSetName}" "$IP"
-          elif [[ $IP =~ $ipv6_regex ]]; then
-              echo -exist add "${ipV6SetName}" "$IP"
+              blockIPv4 $IP
+          if [[ $IP =~ $ipv6_regex ]]; then
+              blockIPv6 $IP
+          elif [[ $IP =~ $host_regex ]]; then
+              blockDomain $\{IP:8\}
+          elif [[ $IP =~ $domain_regex ]]; then
+              blockDomain $IP
           else
               echo "Warning: Invalid line skipped -> $IP" >&2
           fi
