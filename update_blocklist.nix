@@ -52,7 +52,7 @@ in
   }
 
   blockIPv6 () {
-      echo "${ipV6SetName}" "$1"
+      echo -exist add "${ipV6SetName}" "$1"
   }
 
   blockDomain () {
