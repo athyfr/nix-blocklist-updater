@@ -1,5 +1,6 @@
 { lib, ... }:
-with lib; {
+with lib;
+{
   imports = [
     ./service.nix
     (lib.mkRemovedOptionModule [ "services" "blocklist-updater" "runInitially" ] ''
@@ -42,7 +43,11 @@ with lib; {
     };
     blocklistedIPs = mkOption {
       type = with types; either str (listOf str);
-      example = [ "1.2.3.4" "10.168.10.0/24" "2a06:4883:1000::2" ];
+      example = [
+        "1.2.3.4"
+        "10.168.10.0/24"
+        "2a06:4883:1000::2"
+      ];
       default = [ ];
       description = "List of manually banned IPs";
       apply = v: if isList v then lib.strings.concatMapStrings (x: "\n" + x) v else v;
@@ -50,7 +55,10 @@ with lib; {
     updateAt = mkOption {
       type = with types; either str (listOf str);
       default = "*-*-* 01:00:00";
-      example = [ "Wed 14:00:00" "Sun 14:00:00" ];
+      example = [
+        "Wed 14:00:00"
+        "Sun 14:00:00"
+      ];
       description = ''
         Automatically start this unit at the given date/time, which
         must be in the format described in

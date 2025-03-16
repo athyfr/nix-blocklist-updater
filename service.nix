@@ -1,11 +1,19 @@
 { pkgs, config, ... }:
-let cfg = config.services.blocklist-updater;
-in {
+let
+  cfg = config.services.blocklist-updater;
+in
+{
   systemd.services."blocklist" = {
     enable = cfg.enable;
-    preStart = toString (pkgs.writeScript "init_blocklist.sh" (import ./init_blocklist.nix { inherit pkgs config; }));
-    script = toString (pkgs.writeScript "blocklist_update.sh" (import ./update_blocklist.nix { inherit pkgs config; }));
-    postStop = toString (pkgs.writeScript "clear_blocklist.sh" (import ./clear_blocklist.nix { inherit pkgs config; }));
+    preStart = toString (
+      pkgs.writeScript "init_blocklist.sh" (import ./init_blocklist.nix { inherit pkgs config; })
+    );
+    script = toString (
+      pkgs.writeScript "blocklist_update.sh" (import ./update_blocklist.nix { inherit pkgs config; })
+    );
+    postStop = toString (
+      pkgs.writeScript "clear_blocklist.sh" (import ./clear_blocklist.nix { inherit pkgs config; })
+    );
     startAt = cfg.updateAt;
 
     wantedBy = [ "multi-user.target" ]; # start at boot
