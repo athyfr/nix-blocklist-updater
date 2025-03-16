@@ -48,7 +48,7 @@ in
 
   # Define the functions to be used.
   blockIPv4 () {
-      echo "${ipSetName}" "$1"
+      echo -exist add "${ipSetName}" "$1"
   }
 
   blockIPv6 () {
