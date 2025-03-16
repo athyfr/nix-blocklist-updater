@@ -55,7 +55,7 @@ in
   }
 
   blockDomain () {
-      hostIPv4=$(dig $1 A +short)
+      hostIPv4=$(dig "$1" A +short)
       while IFS= read -r IP; do
           echo $(blockIPv4 $1)
       done < $hostIPv4s
