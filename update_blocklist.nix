@@ -58,7 +58,7 @@ in
       dig "$1" A +short |
       while IFS= read -r IP; do
           blockIPv4 "$1"
-      done < $hostIPv4s
+      done
 
       dig $1 AAAA +short |
       while IFS= read -r IP; do
