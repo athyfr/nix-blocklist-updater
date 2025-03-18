@@ -57,12 +57,12 @@ in
   blockDomain () {
       ${dig}/bin/dig "$1" A +short |
       while IFS= read -r IP; do
-          blockIPv4 "$1"
+          blockIPv4 "$IP"
       done
 
       ${dig}/bin/dig $1 AAAA +short |
       while IFS= read -r IP; do
-          blockIPv6 "$1"
+          blockIPv6 "$IP"
       done
   }
 
