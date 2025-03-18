@@ -57,12 +57,20 @@ in
   blockDomain () {
       ${dig}/bin/dig "$1" A +short |
       while IFS= read -r IP; do
-          blockIPv4 "$1"
+          if [[$IP =~ $ipv4_regex]]; then
+              blockIPv4 "$1"
+          else
+              echo "Warning: Invalid ipv4 skipped -> $IP" >&2
+          fi
       done
 
       ${dig}/bin/dig $1 AAAA +short |
       while IFS= read -r IP; do
-          blockIPv6 "$1"
+          if [[$IP =~ $ipv6_regex]]; then
+              blockIPv6 "$1"
+          else
+              echo "Warning: Invalid ipv6 skipped -> $IP" >&2
+          fi
       done
   }
 
