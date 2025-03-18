@@ -44,7 +44,7 @@ in
   ipv4_regex="^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$"
   ipv6_regex="^([0-9a-fA-F:]+::?[0-9a-fA-F]*)+(\/[0-9]{1,3})?$"
   domain_regex="^[a-zA-Z0-9.-]*[a-zA-Z][a-zA-Z0-9.-]*$"
-  host_regex="^0\.0\.0\.0 ''${domain_regex:1}"
+  host_regex="^0\\.0\\.0\\.0 ''${domain_regex:1}"
 
   blockIPv4 () {
       echo -exist add "${ipSetName}" "$1"
