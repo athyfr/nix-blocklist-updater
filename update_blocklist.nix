@@ -1,6 +1,6 @@
 { pkgs, config }:
 let
-  inherit (pkgs) ipset wget;
+  inherit (pkgs) ipset wget dig;
   inherit (config.services.blocklist-updater)
     blocklists
     ipSetName
